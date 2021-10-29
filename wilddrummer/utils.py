@@ -2,35 +2,39 @@
 
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
+import numpy as np
+import librosa
 import random
 from scipy.signal import find_peaks
 
-def split(sound):
-    """ split audio by silence """
 
-    dBFS = sound.dBFS
-    chunks = split_on_silence(sound, 
-        min_silence_len = 50,
-        silence_thresh = dBFS-10)
-    return chunks
+def find_onsets(file):
+    """ librosa onset detection"""
 
-def make_beats(audio_list, sample_rate, bpm):
+    y, sr = librosa.load(file)
+    o_env = librosa.onset.onset_strength(y, sr=sr)
+    onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr)
+    onset_samples = list(librosa.frames_to_samples(onset_frames))
+    onset_arr = (np.array(onset_samples)/sr*1000).astype(int)
 
+    return onset_arr
+
+
+def make_beats(audio, sample_list, sample_rate, bpm):
+    """ make beats from audio segments """
+    
     bpms = bpm/60000
-    interval = 1/bpms/4
+    interval = 1/bpms#/4
 
     playlist = AudioSegment.empty()
-    playlist += audio_list[0]
-    #len_ms = len(audio_list[0].get_array_of_samples())/ sample_rate
-    for s in audio_list[1:]:
-        samp = s.get_array_of_samples()
-        peak_amplitude = s.max
-        peak, _ = find_peaks(samp, height=peak_amplitude)
-        enter = peak[0] / sample_rate
-        #len_ms = len(samp)// sample_rate
+    for s in sample_list:
+        start = s - 23
+        end = s + 23
+        samp = audio[start:end]
+        enter = 23 * 2
         interval_silence = AudioSegment.silent(duration=int(interval-enter))
         playlist += interval_silence
-        playlist += s
+        playlist += samp
 
     return playlist
 
@@ -39,12 +43,8 @@ file = 'kiki_0001.m4a'
 audio = AudioSegment.from_file(file)
 sample_rate = audio.frame_rate
 
-chunks = split(audio)
-sound = chunks[:10]
-sound = [s for s in sound for i in range(4)]
-random.shuffle(sound)
-
-beats = make_beats(sound,sample_rate, 120)
+sample_arr = find_onsets(file)
+beats = make_beats(audio, sample_arr, sample_rate, 120)
 
 file_handle = beats.export("output.wav", format="wav")
 
