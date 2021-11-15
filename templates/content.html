@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h2>audio file </h2>
+  <audio controls>
+    <source src="{{content}}">
+  </audio>
+  <form action = "{{ url_for("generate_file")}}" method = "POST" 
+         enctype = "multipart/form-data">
+        <br><br>
+        <div class="form-group">
+          <label >BPM:</label>
+          <div class="col-xs-7">
+            <input type="number" class="form-control" min="30" max="300" id='bpm' name="bpm" placeholder="&nbsp;0&nbsp;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label >Meter:</label>
+          <div class="col-xs-7">
+            <select name="meter" id="meter">
+              <option value="4">4</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+    </form>
+        <br><br>
+        <button type="button" onclick="window.location.href='{{ url_for( 'generate_file') }}';">NEXT</button>
+         <br><br>
+         <a href="{{ url_for('upload_file') }}">Go back</a>
+        
+</body>
+</html>
