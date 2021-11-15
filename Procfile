@@ -1,1 +1,1 @@
-web: gunicorn app:wild_drummer
+web: gunicorn wild_drummer:app
