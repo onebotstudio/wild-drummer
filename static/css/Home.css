@@ -64,7 +64,7 @@
   margin: -46px auto 0 18px;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 767px) {
   .u-section-1 .u-btn-1 {
     padding: 11px 31px 12px 29px;
     display: inline-block;
