@@ -49,9 +49,9 @@
             <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html">Home</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html">About</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html">Contact</a>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'upload_file') }}">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'about') }}" >About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'contact') }}" >Contact</a>
 </li></ul>
               </div>
             </div>
@@ -64,7 +64,8 @@
         <h1 class="u-custom-font u-font-montserrat u-text u-text-body-alt-color u-text-1">WILD DRUMMER</h1>
         <h3 class="u-custom-font u-font-lato u-text u-text-body-alt-color u-text-2">Turn anything into your new drum kits!</h3>
         <form action = "/display" method = "POST" enctype = "multipart/form-data">
-        <input type = "file" name = "file" class="u-active-grey-80 u-black u-border-2 u-border-active-grey-80 u-border-black u-border-hover-grey-80 u-btn u-btn-round u-button-style u-hover-grey-80 u-radius-50 u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+        
+        <input type = "file" name = "file" class="u-align-center u-active-grey-80 u-black u-border-2 u-border-active-grey-80 u-border-black u-border-hover-grey-80 u-btn u-btn-round u-button-style u-hover-grey-80 u-radius-50 u-btn-1" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
         <div class="u-container-style u-group u-group-1">
           <div class="u-container-layout">
             <input type = "reset" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-black u-text-hover-white u-btn-2" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">

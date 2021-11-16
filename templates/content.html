@@ -48,9 +48,9 @@
             <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Home.html" style="padding: 10px 20px;">Home</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="About.html" style="padding: 10px 20px;">About</a>
-</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html" style="padding: 10px 20px;">Contact</a>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'upload_file') }}" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'about') }}" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{{ url_for( 'contact') }}" style="padding: 10px 20px;">Contact</a>
 </li></ul>
               </div>
             </div>
@@ -60,22 +60,26 @@
       </div></header>
     <section class="u-align-center u-clearfix u-gradient u-section-1" id="carousel_2dac">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <h3 class="u-custom-font u-font-lato u-text u-text-body-alt-color u-text-2">Turn anything into your new drum kits!</h3>
+        <h3 class="u-custom-font u-font-lato u-text u-text-body-alt-color u-text-1"> Turn anything into your new drum kits!</h3>
         <div class="u-align-center u-shape-1">
         <audio controls>
           <source src="{{content}}">
         </audio>
         </div>
-        <div class="u-align-center u-form u-form-1">
+        <div class="u-form u-form-1">
           <form action="/output" method="POST" enctype="multipart/form-data" class="u-clearfix u-inner-form u-form-spacing-10" style="padding: 10px">
             <div class="u-container-layout u-clearfix u-form-horizontal u-form-spacing-10 u-inner-form">
+              <div class="u-form-group u-form-name u-form-group-1">
               <label for="name-91da" class="u-form-control-hidden u-label u-label-1">BPM</label>
               <input type="number" min="30" max="300" id='bpm' name="bpm" placeholder='BPM' class="u-border-2 u-border-white u-input u-input-rectangle u-radius-50 u-white" required="" maxlength="200">
+              </div>
+              <div class="u-form-email u-form-group u-form-group-2">
               <label for="email-2555" placeholder='Meter' class="u-form-control-hidden u-label u-label-2">Meter</label>
               <select name="meter" id="meter" class="u-border-2 u-border-white u-input u-input-rectangle u-radius-50 u-white" required="">
                 <option value="4">4</option>
                 <option value="3">3</option>
               </select>
+              </div>
               <div class="u-align-left u-form-group u-form-submit">
                 <input type="submit" value="Drum it!" class="u-active-grey-80 u-black u-border-2 u-border-active-grey-80 u-border-black u-border-hover-grey-80 u-btn u-btn-round u-btn-submit u-button-style u-hover-grey-80 u-radius-50 u-btn-1">
               </div>
