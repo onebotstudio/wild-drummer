@@ -2,13 +2,12 @@ import os
 import numpy as np
 from pydub import AudioSegment
 from utils import denoise, find_onsets, make_beats, mix_beats
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, current_app
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "tmp/"
-app.config["CACHE_TYPE"] = "null"
 #app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 
@@ -21,10 +20,18 @@ def upload_file():
         pass
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('About.html')
 
-@app.route('/uploads/<name>')
+@app.route('/contact')
+def contact():
+    return render_template('Contact.html')
+
+@app.route('/uploads/<name>', methods=['GET', 'POST'])
 def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+    uploads = os.path.join(current_app.root_path, app.config['UPLOAD_FOLDER'])
+    return send_from_directory(uploads, name)
 
 
 @app.route('/display', methods=['GET', 'POST'])
@@ -66,10 +73,8 @@ def generate_file():
         beats_file = url_for('download_file', name="output.wav")
 
         return render_template('output.html', output=beats_file)
-    return render_template('index.html')
+    return redirect(url_for('upload_file'))
 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
-    #app.add_url_rule(
-    #    "/uploads/<name>", endpoint="download_file", build_only=True)
