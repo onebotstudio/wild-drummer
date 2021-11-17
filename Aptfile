@@ -1,5 +1,5 @@
 libsndfile1
 libsndfile-dev
 libasound2-dev
-libav-tools
+gstreamer
 ffmpeg
