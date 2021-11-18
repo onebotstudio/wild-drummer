@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "tmp/"
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'm4a'}
-#app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1000 * 1000
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -50,10 +50,10 @@ def save_file():
     if request.method == 'POST':
         f = request.files['file']
         if f and allowed_file(f.filename):
-            _, ext = f.filename.split('.')
-            filename = 'audio.{}'.format(ext)
+            audio = AudioSegment.from_file(f)
+            filename = "audio.wav"
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            f.save(path)
+            audio.export(path, format="wav")
             content = url_for('download_file', name=filename)
             return render_template('content.html', content=content)
 
