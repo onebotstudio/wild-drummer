@@ -1,4 +1,5 @@
 import os
+import glob
 import numpy as np
 from pydub import AudioSegment
 from utils import denoise, find_onsets, make_beats, mix_beats
@@ -8,13 +9,20 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "tmp/"
+ALLOWED_EXTENSIONS = {'wav', 'mp3', 'm4a'}
 #app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def upload_file():
     try:
-        os.remove(app.config["UPLOAD_FOLDER"] + 'audio.wav')
+        for file in glob.glob(os.path.join(
+                                    app.config['UPLOAD_FOLDER'], 'audio*')
+                                    ):
+            os.remove(file)
         os.remove(app.config["UPLOAD_FOLDER"] + 'output.wav')
     except BaseException:
         pass
@@ -41,21 +49,22 @@ def download_file(name):
 def save_file():
     if request.method == 'POST':
         f = request.files['file']
-        filename = 'audio.wav'
-        path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        f.save(path)
+        if f and allowed_file(f.filename):
+            _, ext = f.filename.split('.')
+            filename = 'audio.{}'.format(ext)
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            f.save(path)
+            content = url_for('download_file', name=filename)
+            return render_template('content.html', content=content)
 
-        content = url_for('download_file', name=filename)
-
-        return render_template('content.html', content=content)
+    return upload_file()
 
 
 @app.route('/output', methods=['GET', 'POST'])
 def generate_file():
     if request.method == 'POST':
         bpm = request.form.get("bpm", type=int)
-        name = 'audio.wav'
-        file = app.config["UPLOAD_FOLDER"] + name
+        file = glob.glob(os.path.join(app.config['UPLOAD_FOLDER'], 'audio*'))[0]
         y, sr = denoise(file)
         y_dub = np.array(y * (1 << 15), dtype=np.int16)
 
@@ -75,7 +84,7 @@ def generate_file():
             high_ind,
             bpm,
             downbeats_only=False)
-        #up_beats = make_beats(audio, low_onsets, bpm, low_start, outro=100) - 10
+        #up_beats = make_beats(audio, low_onsets, bpm, low_start, outro=100)-10
         #gap = high_start[0] - low_start[0]
         #beats = mix_beats(down_beats, up_beats, bpm, meter, delay=gap)
         beats_path = os.path.join(app.config["UPLOAD_FOLDER"], "output.wav")
