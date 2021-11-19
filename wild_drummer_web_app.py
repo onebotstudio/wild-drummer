@@ -2,9 +2,8 @@ import os
 import glob
 import numpy as np
 from pydub import AudioSegment
-from utils import denoise, find_onsets, make_beats, mix_beats
+from wilddrummer.utils import denoise, find_onsets, make_beats
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, current_app
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
