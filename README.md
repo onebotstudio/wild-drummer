@@ -20,5 +20,5 @@ Run the following command to generate brum beats from a sound file.
 Add flag `-x` for downbeats only mode.
 
 
-## License
+### License
 This project is licensed under the terms of the Apache-2.0 License - see the LICENSE.md file for details
