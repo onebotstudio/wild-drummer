@@ -2,9 +2,10 @@
 
 Wild Drummer is an application that makes any sound sample into drum beats. 
 
+<!---
 Start playing with [Wild Drummer Web App](https://onebotstudio.herokuapp.com/) by uploading a sample audio file.
-please note that the online version now only supports **wav** files.
-
+please note that the online version now only supports **wav** files.)
+-->
 
 ### Installation
 
